@@ -1,0 +1,11 @@
+# JuggyCompare
+
+JuggyCompare is a World of Warcraft addon that makes Juggernaut's Loot Factor
+data available to officers in-game. This allows more informed loot decisions
+without forcing each officer to tab out to the website, compare any number of
+members who sent on an item, and then tabbing back to discuss their opinion
+with other officers.
+
+The loot factor data is pulled from **JuggyCompare_Data.lua**, and I've included
+an example of the expected format in case you want to try to replicate it. But
+only Juggernaut officers have access to the real data that we use.

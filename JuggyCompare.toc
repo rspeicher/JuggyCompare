@@ -1,0 +1,16 @@
+## Interface: 30200
+## Title: JuggyCompare
+## Notes: Compare. For Juggies.
+## Author: tsigo
+## X-Category: Raid
+
+## Dependencies:
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+
+JuggyCompare_Data.lua
+JuggyCompare_Nicks.lua
+JuggyCompare.lua
+
+JuggyAttendance.xml
+JuggyAttendance.lua
