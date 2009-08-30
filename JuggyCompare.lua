@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Locals                                                                    --
+-- Locals																	--
 -------------------------------------------------------------------------------
 
 -- Takes the JuggyCompare_Data tables and stores it in a format we want
@@ -22,17 +22,17 @@ local pairs, getmetatable, setmetatable = _G.pairs, _G.getmetatable, _G.setmetat
 
 -- Copy a table value to a new table
 local function tcopy(t)
-   local new = {}
-   for key, value in pairs(t) do
-      new[ key ] = value
-   end
-   local m = getmetatable(t)
-   if m then setmetatable(new,m) end
-   return new
+	local new = {}
+	for key, value in pairs(t) do
+	  new[ key ] = value
+	end
+	local m = getmetatable(t)
+	if m then setmetatable(new,m) end
+	return new
 end
 
 -------------------------------------------------------------------------------
--- AddOn Declaration                                                         --
+-- AddOn Declaration														 --
 -------------------------------------------------------------------------------
 
 local mod = LibStub("AceAddon-3.0"):NewAddon("JuggyCompare", "AceConsole-3.0", "AceEvent-3.0")
@@ -46,14 +46,14 @@ function mod:OnInitialize()
 	JuggyCompare_Data.updated = nil
 	for _,t in pairs(JuggyCompare_Data) do
 		local v = {
-			name     = t.NAME,
+			name	 = t.NAME,
 			raids_30 = t.RAIDS_30,
 			raids_90 = t.RAIDS_90,
 			raids_lt = t.RAIDS_LT,
 			lastloot = t.LASTLOOT,
-			lf       = t.LF,
-			slf      = t.SLF,
-            bislf    = t.BISLF,
+			lf	   = t.LF,
+			slf	  = t.SLF,
+			bislf	= t.BISLF,
 			sortlf   = t.LF,
 		}
 		table.insert(data, v)
@@ -77,7 +77,7 @@ function mod:PrintInfo(args)
 end
 
 -------------------------------------------------------------------------------
--- Events                                                                    --
+-- Events																	--
 -------------------------------------------------------------------------------
 
 function mod:OnCompare(msg)
@@ -121,7 +121,7 @@ function mod:OnWhisper(event, msg, sender)
 end
 
 -------------------------------------------------------------------------------
--- AddOn Methods                                                             --
+-- AddOn Methods															 --
 -------------------------------------------------------------------------------
 
 function mod:PrintHeader(sender, item)
@@ -163,8 +163,8 @@ function mod:ParseArgument(arg)
 		if split[2] ~= nil then
 			row.telltype = string.upper(split[2])
 			
-            if row.telltype == "BES" or row.telltype == "BIS" or row.telltype == "BISROT" then
-                row.sortlf = tonumber(row.bislf) - 500	-- Sort BiS before everything
+			if row.telltype == "BES" or row.telltype == "BIS" or row.telltype == "BISROT" then
+				row.sortlf = tonumber(row.bislf) - 500	-- Sort BiS before everything
 			elseif row.telltype == "ROT" then
 				row.sortlf = tonumber(row.lf) + 500		-- Sort rot after normal
 			elseif row.telltype == "SIT" then
@@ -200,25 +200,25 @@ function mod:DoCompare()
 			str = pad(row.name, 15) ..
 				pad(row.raids_30, -4) ..
 				pad(row.lastloot, -13) ..
-                ""
-                
-            if row.telltype == "BES" or row.telltype == "BIS" then
-                str = str .. pad(row.bislf, -8)
-                str = str .. "    BiS"
+				""
+				
+			if row.telltype == "BES" or row.telltype == "BIS" then
+				str = str .. pad(row.bislf, -8)
+				str = str .. "	BiS"
 			elseif row.telltype == "BISROT" then
 				str = str .. pad(row.bislf, -8)
-				str = str .. "    BiS ROT"
-            elseif row.telltype == "SIT" then
-                str = str .. pad(row.slf, -8)
-                str = str .. "    SIT"
-            else
-                str = str .. pad(row.lf, -8)
-                
-    			-- Show ROT/FERAL/etc.?
-    			if row.telltype ~= nil then
-    				str = str .. "    " .. row.telltype
-    			end
-            end
+				str = str .. "	BiS ROT"
+			elseif row.telltype == "SIT" then
+				str = str .. pad(row.slf, -8)
+				str = str .. "	SIT"
+			else
+				str = str .. pad(row.lf, -8)
+				
+				-- Show ROT/FERAL/etc.?
+				if row.telltype ~= nil then
+					str = str .. "	" .. row.telltype
+				end
+			end
 		else
 			str = pad(row.name, 15) .. row.err
 		end
@@ -265,7 +265,7 @@ function mod:ValidateSender(arg1)
 end
 
 -------------------------------------------------------------------------------
--- Convenience Functions                                                     --
+-- Convenience Functions													 --
 -------------------------------------------------------------------------------
 
 -- Check if a table contains a value
@@ -283,7 +283,7 @@ end
 -- Justify a string
 --   s: string to justify
 --   width: width to justify to (+ve means right-justify; negative
---     means left-justify)
+--	 means left-justify)
 --   [padder]: string to pad with (" " if omitted)
 -- returns
 --   s: justified string
@@ -300,17 +300,17 @@ function old_strsplit(delimiter, text)
   local list = {}
   local pos = 1
   if strfind("", delimiter, 1) then -- this would result in endless loops
-    error("delimiter matches empty string!")
+	error("delimiter matches empty string!")
   end
   while 1 do
-    local first, last = strfind(text, delimiter, pos)
-    if first then -- found?
-      table.insert(list, strsub(text, pos, first-1))
-      pos = last+1
-    else
-      table.insert(list, strsub(text, pos))
-      break
-    end
+	local first, last = strfind(text, delimiter, pos)
+	if first then -- found?
+	  table.insert(list, strsub(text, pos, first-1))
+	  pos = last+1
+	else
+	  table.insert(list, strsub(text, pos))
+	  break
+	end
   end
   return list
 end
