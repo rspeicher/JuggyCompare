@@ -66,12 +66,14 @@ function mod:CopyAttendance(method)
 	
 	--str = "Tsigo\nBaud\nSebudai\nSouai\nDuskshadow"
 	
-	if method == "1" then
-		currentText = string.gsub(str, "\n$", '')
-		StaticPopup_Show("JuggyCopyDialog")
-	else
-		currentText = string.gsub(str, ',$', '')
-		StaticPopup_Show("JuggyCopyDialog")
+	if (str ~= "") then
+		if method == "1" then
+			currentText = string.gsub(str, "\n$", '')
+			StaticPopup_Show("JuggyCopyDialog")
+		else
+			currentText = string.gsub(str, ',$', '')
+			StaticPopup_Show("JuggyCopyDialog")
+		end
 	end
 end
 
