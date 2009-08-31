@@ -15,6 +15,7 @@ only Juggernaut officers have access to the real data that we use.
 ### JuggyAttendance.lua
 
 Performs several functions related to attendance and loot recording:
+
 -	Adds a command to copy a list of everyone in the raid (**/att**)
 -	Adds a command to copy a list of loot on a corpse (**/lc**)
 -	Adds functionality to broadcast and receive information about loot on a corpse. In case
