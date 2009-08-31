@@ -269,10 +269,9 @@ end
 -------------------------------------------------------------------------------
 
 -- Check if a table contains a value
-function tcontains(tab, value)
-	value = string.lower(value)
-	for k,v in pairs(tab) do
-		if v == value then
+function tcontains(t, value)
+	for k,v in pairs(t) do
+		if v == value or string.lower(v) == string.lower(value) then
 			return true
 		end
 	end
