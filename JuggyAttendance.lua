@@ -17,7 +17,7 @@ local loots = {}
 -- Stores data about GUIDs we already copied loot for
 local copied = {}
 
-local UnitInRaid, GetTime = _G.UnitInRaid, _G.GetTime
+local UnitInRaid = _G.UnitInRaid
 
 -- Clear a table's contents
 local function terase(t)
