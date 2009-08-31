@@ -9,3 +9,52 @@ with other officers.
 The loot factor data is pulled from **JuggyCompare_Data.lua**, and I've included
 an example of the expected format in case you want to try to replicate it. But
 only Juggernaut officers have access to the real data that we use.
+
+## Files
+
+### JuggyAttendance.lua
+
+Performs several functions related to attendance and loot recording:
+*   Adds a command to copy a list of everyone in the raid (**/att**)
+*   Adds a command to copy a list of loot on a corpse (**/lc**)
+*   Adds functionality to broadcast and receive information about loot on a corpse. In case
+    the person responsible for recording loot can't be in the raid, this allows them to still
+    use the same copy & paste method instead of typing in item names by hand.
+	
+### JuggyCompare.lua
+
+Handles all things comparison-related.
+
+### JuggyCompare_Data.lua
+
+Stores the data used in the comparison. Ideally pulled daily from a website before raids.
+
+Example format
+	JuggyCompare_Data = {
+	  ["updated"] = "August 30, 2009 00:00",
+
+	  ["Tsigo"] = {
+		["NAME"]     = "Tsigo",
+		["RANK"]     = "Officer",
+		["RAIDS_30"] = "100%",
+		["RAIDS_90"] = "100%",
+		["RAIDS_LT"] = "100%",
+		["LASTLOOT"] = "2009-08-30",
+		["LF"]       = "0.00",
+		["SLF"]      = "0.00",
+		["BISLF"]    = "0.00",
+	  },
+	}
+	
+### JuggyCompare_Nicks.lua
+
+Contains a list of "nicknames" for members. Useful if someone is constantly mis-typing someone's
+name, or if a member changes their name and officers are still using the old one out of habit. Note
+that this shouldn't be used for abbreviation of names, as the core JuggyCompare has functionality
+match partial names.
+
+Examle format
+	JuggyCompare_Nicks = {
+		methos = "Baud",
+		kamien = "Tsigo",
+	}
