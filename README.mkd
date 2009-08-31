@@ -52,7 +52,7 @@ Example format
 Contains a list of "nicknames" for members. Useful if someone is constantly mis-typing someone's
 name, or if a member changes their name and officers are still using the old one out of habit. Note
 that this shouldn't be used for abbreviation of names, as the core JuggyCompare has functionality
-match partial names.
+to match partial names.
 
 Examle format
 	JuggyCompare_Nicks = {
