@@ -204,19 +204,19 @@ function mod:DoCompare()
 				
 			if row.telltype == "BES" or row.telltype == "BIS" then
 				str = str .. pad(row.bislf, -8)
-				str = str .. "	BiS"
+				str = str .. pad("BiS", -8)
 			elseif row.telltype == "BISROT" then
 				str = str .. pad(row.bislf, -8)
-				str = str .. "	BiS ROT"
+				str = str .. pad("BiSROT", -8)
 			elseif row.telltype == "SIT" then
 				str = str .. pad(row.slf, -8)
-				str = str .. "	SIT"
+				str = str .. pad("SIT", -8)
 			else
 				str = str .. pad(row.lf, -8)
 				
 				-- Show ROT/FERAL/etc.?
 				if row.telltype ~= nil then
-					str = str .. "	" .. row.telltype
+					str = str .. pad(row.telltype, -8)
 				end
 			end
 		else
