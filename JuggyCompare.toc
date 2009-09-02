@@ -2,11 +2,13 @@
 ## Title: JuggyCompare
 ## Notes: Compare. For Juggies.
 ## Author: tsigo
-## X-Category: Raid
+## X-Category: Guild
 
 ## Dependencies:
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
+
+embeds.xml
 
 JuggyCompare_Data.lua
 JuggyCompare_Nicks.lua
