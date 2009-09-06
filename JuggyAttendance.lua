@@ -8,8 +8,8 @@ local dbg = false
 -- Only copy epic and legendary loots
 local rarity_cutoff = 4
 
--- Only copy item level 200 or higher loots
-local level_cutoff = 200
+-- Only copy item level 80 or higher loots (Trophy of the Crusade is 80)
+local level_cutoff = 80
 
 -- Stores data about broadcasted loots
 local loots = {}
@@ -84,12 +84,19 @@ end
 function mod:OnDisable()
 end
 
+function mod:Debug(...)
+	if not dbg then return end
+	self:Print(...)
+end
+
 -- ---------------------
 -- Distributed Looting
 -- ---------------------
 
 function mod:OnCommReceived(prefix, msg, distro, sender)
 	local guid, itemId = select(3, msg:find("(%w+) (%d+)"))
+	
+	self:Debug("Comm:", msg, sender)
 	
 	-- A table for this GUID already exists, and it wasn't created by this person
 	-- Probably means multiple people looted the corpse and broadcasted it, so just 
@@ -99,6 +106,8 @@ function mod:OnCommReceived(prefix, msg, distro, sender)
 	-- If a copied entry for this GUID already exists, it means we copied it and don't 
 	-- need to create it again
 	if tcontains(copied, guid) then return end
+	
+	self:Debug("Comm: Processing")
 	
 	-- Table for this GUID doesn't exist, initialize it, giving credit to the 
 	-- first sender
@@ -118,6 +127,11 @@ function mod:LOOT_OPENED(event, arg1)
 	-- Get the GUID of the looted corpse so we can broadcast it and separate 
 	-- loot by corpse
 	local guid = UnitGUID('target')
+	if guid == nil or guid == "" then
+		-- Couldn't get a GUID, that probably means it's a chest. Just use the Sub-zone text.
+		guid = GetSubZoneText()
+		self:Debug("No GUID, using", guid)
+	end
 	
 	for i=1, GetNumLootItems() do
 		-- Get loot info for each loot slot, and broadcast its data if it's an
@@ -125,8 +139,11 @@ function mod:LOOT_OPENED(event, arg1)
 		local _, name, _, rarity = GetLootSlotInfo(i)
 		-- NOTE: We only do a rarity check here; doing a level check would require extra calls
 		if dbg or rarity >= rarity_cutoff then
-			local _, itemId = strsplit(":", GetLootSlotLink(i))
-			self:SendCommMessage(self.prefix, (guid .. " " .. itemId), "GUILD")
+			local link = GetLootSlotLink(i)
+			if link then
+				local _, itemId = strsplit(":", link)
+				self:SendCommMessage(self.prefix, (guid .. " " .. itemId), "GUILD")
+			end
 		end
 	end
 end
@@ -170,7 +187,10 @@ function mod:CopyLoot(method)
 			end
 		end
 		
-		table.insert(copied, guid)
+		-- Only make a note that we copied this loot if it's actually a GUID
+		if string.find(guid, "^0x") then
+			table.insert(copied, guid)
+		end
 	end
 	
 	-- Clear out this loots table since we've got everything we need
