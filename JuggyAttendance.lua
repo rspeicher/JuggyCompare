@@ -26,6 +26,8 @@ end
 
 -- Check if a table contains a value
 local function tcontains(t, value)
+	if value == nil then return end
+	
 	for k,v in pairs(t) do
 		if v == value or string.lower(v) == string.lower(value) then
 			return true
@@ -98,6 +100,8 @@ function mod:OnCommReceived(prefix, msg, distro, sender)
 	
 	self:Debug("Comm:", msg, sender)
 	
+	if guid == nil then return end
+	
 	-- A table for this GUID already exists, and it wasn't created by this person
 	-- Probably means multiple people looted the corpse and broadcasted it, so just 
 	-- ignore duplicates
@@ -124,14 +128,7 @@ end
 function mod:LOOT_OPENED(event, arg1)
 	if not dbg and not UnitInRaid('player') then return end
 	
-	-- Get the GUID of the looted corpse so we can broadcast it and separate 
-	-- loot by corpse
-	local guid = UnitGUID('target')
-	if guid == nil or guid == "" then
-		-- Couldn't get a GUID, that probably means it's a chest. Just use the Sub-zone text.
-		guid = GetSubZoneText()
-		self:Debug("No GUID, using", guid)
-	end
+	local guid = self:GetCorpseInfo()
 	
 	for i=1, GetNumLootItems() do
 		-- Get loot info for each loot slot, and broadcast its data if it's an
@@ -146,6 +143,22 @@ function mod:LOOT_OPENED(event, arg1)
 			end
 		end
 	end
+end
+
+function mod:GetCorpseInfo()
+	local retval = UnitGUID('target')
+	
+	-- No GUID, probably means it's a chest
+	if retval == nil or retval == '' then
+		retval = GetSubZoneText()
+	end
+	
+	-- No SubZoneText, probably means we're in ToC
+	if retval == nil or retval == '' then
+		retval = GetZoneText()
+	end
+	
+	return retval
 end
 
 -- ---------------------
@@ -182,7 +195,7 @@ function mod:CopyLoot(method)
 		for k, itemId in pairs(vals.items) do
 			local name, _, rarity, level = GetItemInfo(itemId)
 			-- Make sure the item is high enough quality AND level
-			if dbg or (rarity >= rarity_cutoff and level >= level_cutoff) then
+			if name and (dbg or (rarity >= rarity_cutoff and level >= level_cutoff)) then
 				str = str .. " - " .. name .. "|" .. itemId .. "\n"
 			end
 		end
