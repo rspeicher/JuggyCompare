@@ -12,10 +12,10 @@ local updated = JuggyCompare_Data.updated
 local officers = {
 	'tsigo', 'kamien',
 	'sebudai', 
-	'souai', 
+	'souai', 'spacekitty',
 	'duskshadow', 
 	'baud', 'baudz',
-	'ruhntar', 'parawon'
+	'ruhntar', 'parawon',
 }
 
 local pairs, getmetatable, setmetatable = _G.pairs, _G.getmetatable, _G.setmetatable
