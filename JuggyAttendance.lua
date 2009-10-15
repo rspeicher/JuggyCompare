@@ -1,3 +1,15 @@
+--[[
+TODO:
+	- Instead of sending a broadcast for each item ID, send one broadcast per LOOT_OPENED
+	  with a comma-separated list of IDs ("47242,32867,32868,40395")
+	- Broadcasters also have a table of sent item ID *strings* (the CSV above), and doesn't re-broadcast at all
+	  if already sent, upon relooting.
+	- Instead of storing a list of known GUIDs, store the pre-split CSV string above.
+	- Add a way ("/lc 1" or "/lc now" or something) to just copy the currently opened window, as a fallback
+	- Have a table with a list of ignored items (or maybe included items, and go back to min ilevel)
+	- Tentative: Only receive from people NOT in the same zone as we are?
+]]
+
 -- ---------------------
 -- Locals
 -- ---------------------
