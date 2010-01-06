@@ -17,6 +17,9 @@ local loots = {}
 -- Stores data about GUIDs we already copied loot for
 local copied = {}
 
+-- Stores alt names mapped to mains
+local altMap = {}
+
 local UnitInRaid = _G.UnitInRaid
 
 -- Clear a table's contents
@@ -81,6 +84,8 @@ end
 function mod:OnEnable()
 	self:RegisterComm(self.prefix)
 	self:RegisterEvent("LOOT_OPENED")
+	
+	self:RegisterEvent("GUILD_ROSTER_UPDATE")
 end
 
 function mod:OnDisable()
@@ -165,14 +170,33 @@ end
 -- Methods
 -- ---------------------
 
+function mod:GUILD_ROSTER_UPDATE(event, arg1)
+	for i=1, GetNumGuildMembers(true) do
+		local name, rank, rankIndex, level, class, zone, note, officernote, online, status = GetGuildRosterInfo(i)
+		if (rank == 'Alt') or (rank == 'Officer' and note ~= '') then
+			altMap[name] = note
+		end
+	end
+	
+	self:UnregisterEvent('GUILD_ROSTER_UPDATE')
+end
+
 function mod:CopyAttendance(method)
 	method = method == "" and "1" or method
 	
 	local str = ""
 	local sep = method == "1" and "\n" or ','
 	
+	local name
 	for i=1, GetNumRaidMembers() do
-		str = str .. UnitName('raid' .. i) .. sep
+		name = UnitName('raid' .. i)
+		
+		-- If it's an alt, use the main's name
+		if altMap[name] ~= nil then
+			name = altMap[name]
+		end
+		
+		str = str .. name .. sep
 	end
 	
 	if str ~= "" then
