@@ -105,9 +105,7 @@ function mod:CopyAttendance(method)
 	end
 end
 
-function mod:CopyLoot(method)
-	method = method == "" and "1" or method
-	
+function mod:CopyLoot()
 	local str = ""
 	
 	for i=1, GetNumLootItems() do
