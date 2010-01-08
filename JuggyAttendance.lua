@@ -86,7 +86,7 @@ function mod:CopyAttendance(method)
 	method = method == "" and "1" or method
 	
 	local str = ""
-	local sep = method == "1" and "\n" or ','
+	local sep = method == "1" and "," or "\n"
 	
 	for i=1, GetNumRaidMembers() do
 		local name = UnitName('raid' .. i)
