@@ -72,14 +72,19 @@ end
 -- ---------------------
 
 function mod:GUILD_ROSTER_UPDATE(event, arg1)
+	local unregister = false
 	for i=1, GetNumGuildMembers(true) do
 		local name, rank, rankIndex, level, class, zone, note, officernote, online, status = GetGuildRosterInfo(i)
-		if (rank == 'Alt') or (rank == 'Officer' and note ~= '') then
+		if (rank == 'Alt' or rank == 'Officer') and note ~= '' then
 			altMap[name] = note
+			unregister = true
 		end
 	end
 	
-	self:UnregisterEvent('GUILD_ROSTER_UPDATE')
+	-- Note: Wanted to use #altMap > 0, but that didn't work???
+	if unregister then
+		self:UnregisterEvent('GUILD_ROSTER_UPDATE')
+	end
 end
 
 function mod:CopyAttendance(method)
